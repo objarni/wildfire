@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Grid from './Grid';
 
 const App: React.FC = () => {
-  const [gridData, setGridData] = useState<{ color: 'green' | 'red' | 'yellow' }[][]>([]);
+    const [gridData, setGridData] = useState<{ color: 'green' | 'red' | 'yellow' }[][]>([]);
 
-  useEffect(() => {
-    const data = Array.from({ length: 10 }, () =>
-        Array.from({ length: 10 }, () => {
-          // Explicitly define the color as a type 'green' | 'red' | 'yellow'
-          const randomColor = Math.random();
-          let color: 'green' | 'red' | 'yellow';
-          if (randomColor > 0.66) {
-            color = 'green';
-          } else if (randomColor > 0.33) {
-            color = 'red';
-          } else {
-            color = 'yellow';
-          }
-          return { color };
-        })
-    );
-    setGridData(data);
-  }, []);
+    useEffect(() => {
+        const data = Array.from({length: 10}, () =>
+            Array.from({length: 10}, () => {
+                // Explicitly define the color as a type 'green' | 'red' | 'yellow'
+                const randomColor = Math.random();
+                let color: 'green' | 'red' | 'yellow';
+                let percentGreen = 33;
+                if (randomColor > (100 - percentGreen) / 100.0) {
+                    color = 'green';
+                } else if (randomColor > percentGreen / 100.0) {
+                    color = 'red';
+                } else {
+                    color = 'yellow';
+                }
+                return {color};
+            })
+        );
+        setGridData(data);
+    }, []);
 
-  return <div>
-    <Grid data={gridData} />
-  </div>;
+    return <div>
+        <Grid data={gridData}/>
+    </div>;
 };
 
 export default App;
