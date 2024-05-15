@@ -9,8 +9,9 @@ type GridProps = {
 };
 
 const Grid: React.FC<GridProps> = ({ data }) => {
+    const rows = data.length > 0 ? data[0].length : 0
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${data[0].length}, 50px)` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${rows}, 50px)` }}>
             {data.map((row, i) =>
                 row.map((cell, j) => (
                     <div
