@@ -1,4 +1,4 @@
-// sum.app-test.ts
+// sum.sim-test.ts
 import { describe, it, expect } from 'vitest';
 
 export function sum(a: number, b: number): number {
@@ -7,6 +7,13 @@ export function sum(a: number, b: number): number {
 
 describe('sum function', () => {
     it('adds 1 + 2 to equal 3', () => {
+        expect(sum(1, 2)).toBe(3);
+    });
+});
+
+
+describe('simulation', () => {
+    it('a greenfield does not start burning', () => {
         expect(sum(1, 2)).toBe(3);
     });
 });
