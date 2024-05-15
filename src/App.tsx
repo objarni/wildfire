@@ -8,12 +8,12 @@ const App: React.FC = () => {
         const data = Array.from({length: 10}, () =>
             Array.from({length: 10}, () => {
                 // Explicitly define the color as a type 'green' | 'red' | 'yellow'
-                const randomColor = Math.random();
+                const greenRandom = Math.random();
                 let color: 'green' | 'red' | 'yellow';
-                let percentGreen = 33;
-                if (randomColor > (100 - percentGreen) / 100.0) {
+                let percentGreen = 80
+                if (greenRandom < percentGreen / 100.0) {
                     color = 'green';
-                } else if (randomColor > percentGreen / 100.0) {
+                } else if (Math.random() < 0.2) {
                     color = 'red';
                 } else {
                     color = 'yellow';
