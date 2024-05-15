@@ -24,7 +24,6 @@ const App: React.FC = () => {
             );
         }
 
-
         const intervalId = setInterval(() => {
             setGridData(generateData());
         }, 1000); // 1000 milliseconds = 1 second
