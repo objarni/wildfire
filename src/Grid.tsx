@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
 type Cell = {
-    color: 'green' | 'red' | 'yellow';
-};
+    color: 'green' | 'red' | 'yellow'
+}
 
 type GridProps = {
-    data: Cell[][];
-};
+    data: Cell[][]
+}
 
 const Grid: React.FC<GridProps> = ({ data }) => {
     const rows = data.length > 0 ? data[0].length : 0
@@ -21,7 +21,7 @@ const Grid: React.FC<GridProps> = ({ data }) => {
                 ))
             )}
         </div>
-    );
-};
+    )
+}
 
-export default Grid;
+export default Grid
