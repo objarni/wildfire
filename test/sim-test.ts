@@ -1,15 +1,15 @@
 // sum.sim-test.ts
-import {describe, it, expect} from 'vitest';
+import {describe, it, expect} from 'vitest'
 
 export function sum(a: number, b: number): number {
-    return a + b;
+    return a + b
 }
 
 describe('sum function', () => {
     it('adds 1 + 2 to equal 3', () => {
-        expect(sum(1, 2)).toBe(3);
-    });
-});
+        expect(sum(1, 2)).toStrictEqual(3)
+    })
+})
 
 /**
  * Modell för gräsbrand
@@ -45,7 +45,7 @@ describe('sum function', () => {
  */
 
 function step(heat: number, neighbourHeats: number[]) {
-    const isBurning = heat => heat > 5
+    const isBurning = (heat: number) => heat > 5
     const burningNeighbours = neighbourHeats.filter(isBurning).length
     if (isBurning(heat))
         heat = heat + 1
@@ -55,29 +55,49 @@ function step(heat: number, neighbourHeats: number[]) {
     return newHeat
 }
 
+function pickNeighboursAround(x: number, y: number, field: number[][]) {
+    return [8, 8, 8, 8, 8, 8, 8, 8]
+}
+
 describe('simulation', () => {
-    it('a grass heats up if a neighbour burns', () => {
-        const newHeat = step(1, [1, 1, 1, 1, 1, 1, 1, 9])
-        expect(newHeat).toBe(2)
-    });
+    describe('cell behaviour', () => {
 
-    it('a grass that has 2 burning neighbours heats quicker', () => {
-        const newHeat = step(3, [1, 1, 1, 1, 1, 6, 1, 9])
-        expect(newHeat).toBe(5)
+        it('a grass heats up if a neighbour burns', () => {
+            const newHeat = step(1, [1, 1, 1, 1, 1, 1, 1, 9])
+            expect(newHeat).toStrictEqual(2)
+        })
+
+        it('a grass that has 2 burning neighbours heats quicker', () => {
+            const newHeat = step(3, [1, 1, 1, 1, 1, 6, 1, 9])
+            expect(newHeat).toStrictEqual(5)
+        })
+
+        it('a grass stays the same heat if no neighbour burns', () => {
+            const newHeat = step(2, [1, 1, 1, 1, 1, 1, 1, 1])
+            expect(newHeat).toStrictEqual(2)
+        })
+
+        it('a fire increases by 1 even if no neighbour burns', () => {
+            const newHeat = step(7, [1, 1, 1, 1, 1, 1, 1, 1])
+            expect(newHeat).toStrictEqual(8)
+        })
+
+        it('a fire reaching heat 10 becomes ashes', () => {
+            const newHeat = step(9, [1, 1, 1, 1, 1, 1, 1, 1])
+            expect(newHeat).toStrictEqual(0)
+        })
     })
 
-    it('a grass stays the same heat if no neighbour burns', () => {
-        const newHeat = step(2, [1, 1, 1, 1, 1, 1, 1, 1])
-        expect(newHeat).toBe(2)
+    describe('neighourhood picker', () => {
+        it('picks the right neighbours in a simple case', () => {
+            const neighbourHeats = pickNeighboursAround(1, 1,
+                [
+                    [8, 8, 8, 1],
+                    [8, 0, 8, 1],
+                    [8, 8, 8, 1],
+                    [1, 1, 1, 1],
+                ])
+            expect(neighbourHeats).toStrictEqual([8, 8, 8, 8, 8, 8, 8, 8])
+        })
     })
-
-    it('a fire increases by 1 even if no neighbour burns', () => {
-        const newHeat = step(7, [1, 1, 1, 1, 1, 1, 1, 1])
-        expect(newHeat).toBe(8)
-    })
-
-    it('a fire reaching heat 10 becomes ashes', () => {
-        const newHeat = step(9, [1, 1, 1, 1, 1, 1, 1, 1])
-        expect(newHeat).toBe(0)
-    })
-});
+})
