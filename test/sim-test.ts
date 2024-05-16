@@ -86,9 +86,9 @@ describe('simulation', () => {
 
     function pickNeighboursAround(x: number, y: number, field: number[][]) {
         const safePick = (x: number, y: number): number => {
-            if(y<0 || y>field.length)
+            if (y < 0 || y > field.length)
                 return 0
-            if(x<0 || x>field[0].length)
+            if (x < 0 || x > field[0].length)
                 return 0
             return field[y][x]
         }
