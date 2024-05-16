@@ -1,5 +1,5 @@
 // sum.sim-test.ts
-import {describe, it, expect} from 'vitest'
+import {describe, expect, it} from 'vitest'
 
 export function sum(a: number, b: number): number {
     return a + b
@@ -55,10 +55,6 @@ function step(heat: number, neighbourHeats: number[]) {
     return newHeat
 }
 
-function pickNeighboursAround(x: number, y: number, field: number[][]) {
-    return [8, 8, 8, 8, 8, 8, 8, 8]
-}
-
 describe('simulation', () => {
     describe('cell behaviour', () => {
 
@@ -88,6 +84,14 @@ describe('simulation', () => {
         })
     })
 
+    function pickNeighboursAround(x: number, y: number, field: number[][]) {
+        const cellsAbove = field[y - 1].slice(x - 1, x + 2)
+        const thisCellsRow = field[y]
+        const cellsBelow = field[y + 1].slice(x - 1, x + 2)
+        return [...cellsAbove, thisCellsRow[x - 1], thisCellsRow[x + 1], ...cellsBelow]
+    }
+
+
     describe('neighourhood picker', () => {
         it('picks the right neighbours in a simple case', () => {
             const neighbourHeats = pickNeighboursAround(1, 1,
@@ -98,6 +102,26 @@ describe('simulation', () => {
                     [1, 1, 1, 1],
                 ])
             expect(neighbourHeats).toStrictEqual([8, 8, 8, 8, 8, 8, 8, 8])
+        })
+
+        it('picks the right neighbours in a little trickier case', () => {
+            const neighbourHeats = pickNeighboursAround(2, 1,
+                [
+                    [8, 8, 8, 1],
+                    [8, 0, 8, 1],
+                    [8, 8, 8, 1],
+                    [1, 1, 1, 1],
+                ])
+            expect(neighbourHeats.sort()).toStrictEqual([8, 8, 1, 0, 1, 8, 8, 1].sort())
+        })
+
+        it.skip('outside field it is all ashes', () => {
+            const neighbourHeats = pickNeighboursAround(0, 0,
+                [
+                    [8, 8],
+                    [8, 8],
+                ])
+            expect(neighbourHeats.sort()).toStrictEqual([0, 0, 0, 0, 0, 8, 8, 8].sort())
         })
     })
 })
