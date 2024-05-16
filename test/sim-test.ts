@@ -1,79 +1,8 @@
 // sum.sim-test.ts
 import {describe, expect, it} from 'vitest'
+import {pickNeighboursAround, step} from "../src/simulation";
+import {gridFromField} from "../src/App";
 
-
-/**
- * Modell för gräsbrand
- * Ett rutnät av heltal som representerar:
- * 0 = aska
- * 1-5 = gräs
- * 6-9 = eld (jämn röd, udda gul)
- *
- * Ett gräs ökar med 1 i värme om en granne brinner        #####
- * Grannar: 1,1,1,1, 1,1,1,9
- * Gräset: 1
- * Resultat: 2
- *
- * Ett gräs ökar med 2 i värme om två grannar brinner      #####
- * Grannar: 1,1,1,1, 1,6,1,9
- * Gräset: 1
- * Resultat: 3
- *
- * Ett gräs ökar inte i värme om ingen granne brinner      #####
- * Grannar: 1,1,1,1, 1,1,1,1
- * Gräset: 1
- * Resultat: 1
- *
- * En brand utan brinnande grannar ökar med ett i värme    #####
- * Grannar: 1,1,1,1, 1,1,1,1
- * Värme: 6
- * Resultat: 7
- *
- * En brand som når över 9 blir till aska
- * Grannar: 1,1,1,1, 1,1,1,1
- * Värme: 9
- * Resultat: 0
- */
-
-function step(heat: number, neighbourHeats: number[]) {
-    const isBurning = (heat: number) => heat > 5
-    const burningNeighbours = neighbourHeats.filter(isBurning).length
-    if (isBurning(heat))
-        heat = heat + 1
-    let newHeat = heat + burningNeighbours
-    if (newHeat > 9)
-        return 0
-    return newHeat
-}
-
-function pickNeighboursAround(x: number, y: number, field: number[][]) {
-    const safePick = (x: number, y: number): number => {
-        if (y < 0 || y > field.length)
-            return 0
-        if (x < 0 || x > field[0].length)
-            return 0
-        return field[y][x]
-    }
-    return [safePick(x - 1, y - 1), safePick(x, y - 1), safePick(x + 1, y - 1),
-        safePick(x - 1, y), safePick(x + 1, y),
-        safePick(x - 1, y + 1), safePick(x, y + 1), safePick(x + 1, y + 1)]
-}
-
-function gridFromField(field: number[][]) {
-    const heatMap = {
-        0: 'black',
-        1: 'green',
-        2: 'green',
-        3: 'green',
-        4: 'green',
-        5: 'green',
-        6: 'yellow',
-        7: 'red',
-        8: 'yellow',
-        9: 'red',
-    }
-    return field.map(row => row.map(heat => heatMap[heat]))
-}
 
 describe('simulation', () => {
     describe('cell behaviour', () => {
@@ -144,7 +73,9 @@ describe('simulation', () => {
             expect(grid).toStrictEqual([
                 ['green', 'yellow'],
                 ['red', 'green']
-            ])
+            ].map(row => row.map(c => {
+                return {color: c}
+            })))
         })
     })
 })

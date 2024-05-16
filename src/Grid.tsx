@@ -1,8 +1,5 @@
 import React from 'react'
-
-type Cell = {
-    color: 'green' | 'red' | 'yellow'
-}
+import {Cell} from "./types";
 
 type GridProps = {
     data: Cell[][]
