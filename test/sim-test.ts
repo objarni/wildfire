@@ -59,6 +59,22 @@ function pickNeighboursAround(x: number, y: number, field: number[][]) {
         safePick(x - 1, y + 1), safePick(x, y + 1), safePick(x + 1, y + 1)]
 }
 
+function gridFromField(field: number[][]) {
+    const heatMap = {
+        0: 'black',
+        1: 'green',
+        2: 'green',
+        3: 'green',
+        4: 'green',
+        5: 'green',
+        6: 'yellow',
+        7: 'red',
+        8: 'yellow',
+        9: 'red',
+    }
+    return field.map(row => row.map(heat => heatMap[heat]))
+}
+
 describe('simulation', () => {
     describe('cell behaviour', () => {
 
@@ -118,6 +134,17 @@ describe('simulation', () => {
                     [8, 8],
                 ])
             expect(neighbourHeats.sort()).toStrictEqual([0, 0, 0, 0, 0, 8, 8, 8].sort())
+        })
+    })
+
+    describe('field to grid conversion', () => {
+
+        it('converts a simple 2x2 field to same dimension grid', () => {
+            const grid = gridFromField([[1, 6], [7, 1]])
+            expect(grid).toStrictEqual([
+                ['green', 'yellow'],
+                ['red', 'green']
+            ])
         })
     })
 })
