@@ -24,7 +24,27 @@ const App: React.FC = () => {
             )
         }
 
+        function generateHeatField() : number[][] {
+            return Array.from({length: 10}, () =>
+                Array.from({length: 10}, () => {
+                    const greenRandom = Math.random()
+                    const percentGreen = 80
+                    let heat = 0
+                    if (greenRandom < percentGreen / 100.0) {
+                        heat = 1
+                    } else if (Math.random() < 0.2) {
+                        heat = 6
+                    } else {
+                        heat = 7
+                    }
+                    return heat
+                })
+            )
+        }
+
         const intervalId = setInterval(() => {
+            // const field = generateHeatField()
+            // const colorField = field2colors(field)
             setGridData(generateData())
         }, 1000) // 1000 milliseconds = 1 second
 

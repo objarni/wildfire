@@ -1,15 +1,6 @@
 // sum.sim-test.ts
 import {describe, expect, it} from 'vitest'
 
-export function sum(a: number, b: number): number {
-    return a + b
-}
-
-describe('sum function', () => {
-    it('adds 1 + 2 to equal 3', () => {
-        expect(sum(1, 2)).toStrictEqual(3)
-    })
-})
 
 /**
  * Modell för gräsbrand
@@ -55,6 +46,19 @@ function step(heat: number, neighbourHeats: number[]) {
     return newHeat
 }
 
+function pickNeighboursAround(x: number, y: number, field: number[][]) {
+    const safePick = (x: number, y: number): number => {
+        if (y < 0 || y > field.length)
+            return 0
+        if (x < 0 || x > field[0].length)
+            return 0
+        return field[y][x]
+    }
+    return [safePick(x - 1, y - 1), safePick(x, y - 1), safePick(x + 1, y - 1),
+        safePick(x - 1, y), safePick(x + 1, y),
+        safePick(x - 1, y + 1), safePick(x, y + 1), safePick(x + 1, y + 1)]
+}
+
 describe('simulation', () => {
     describe('cell behaviour', () => {
 
@@ -83,20 +87,6 @@ describe('simulation', () => {
             expect(newHeat).toStrictEqual(0)
         })
     })
-
-    function pickNeighboursAround(x: number, y: number, field: number[][]) {
-        const safePick = (x: number, y: number): number => {
-            if (y < 0 || y > field.length)
-                return 0
-            if (x < 0 || x > field[0].length)
-                return 0
-            return field[y][x]
-        }
-        return [safePick(x - 1, y - 1), safePick(x, y - 1), safePick(x + 1, y - 1),
-            safePick(x - 1, y), safePick(x + 1, y),
-            safePick(x - 1, y + 1), safePick(x, y + 1), safePick(x + 1, y + 1)]
-    }
-
 
     describe('neighourhood picker', () => {
         it('picks the right neighbours in a simple case', () => {
