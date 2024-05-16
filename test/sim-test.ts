@@ -86,11 +86,11 @@ describe('simulation', () => {
 
     function pickNeighboursAround(x: number, y: number, field: number[][]) {
         const safePick = (x: number, y: number): number => {
-            try {
-                return field[y][x]
-            } catch {
+            if(y<0 || y>field.length)
                 return 0
-            }
+            if(x<0 || x>field[0].length)
+                return 0
+            return field[y][x]
         }
         return [safePick(x - 1, y - 1), safePick(x, y - 1), safePick(x + 1, y - 1),
             safePick(x - 1, y), safePick(x + 1, y),
@@ -110,7 +110,7 @@ describe('simulation', () => {
             expect(neighbourHeats).toStrictEqual([8, 8, 8, 8, 8, 8, 8, 8])
         })
 
-        it.skip('picks the right neighbours in a little trickier case', () => {
+        it('picks the right neighbours in a little trickier case', () => {
             const neighbourHeats = pickNeighboursAround(2, 1,
                 [
                     [8, 8, 8, 1],
@@ -121,7 +121,7 @@ describe('simulation', () => {
             expect(neighbourHeats.sort()).toStrictEqual([8, 8, 1, 0, 1, 8, 8, 1].sort())
         })
 
-        it.skip('outside field it is all ashes', () => {
+        it('outside field it is all ashes', () => {
             const neighbourHeats = pickNeighboursAround(0, 0,
                 [
                     [8, 8],
