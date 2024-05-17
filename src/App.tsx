@@ -3,39 +3,35 @@ import Grid from './Grid'
 import {Cell} from "./types";
 import {simulate} from "./simulation";
 
-// function generateHeatField(): number[][] {
-//     return Array.from({length: 10}, () =>
-//         Array.from({length: 10}, () => {
-//             const greenRandom = Math.random()
-//             const percentGreen = 80
-//             let heat: number
-//             if (greenRandom < percentGreen / 100.0) {
-//                 heat = 1
-//             } else if (Math.random() > 0.2) {
-//                 heat = 6
-//             } else {
-//                 heat = 7
-//             }
-//             return heat
-//         })
-//     )
-// }
+function generateHeatField(): number[][] {
+    return Array.from({length: 10}, () =>
+        Array.from({length: 10}, () => {
+            const greenRandom = Math.random()
+            const percentGreen = 80
+            let heat: number
+            if (greenRandom < percentGreen / 100.0) {
+                heat = 1
+            } else if (Math.random() > 0.2) {
+                heat = 6
+            } else {
+                heat = 7
+            }
+            return heat
+        })
+    )
+}
+
+const initialField = generateHeatField()
 
 const App: React.FC = () => {
-    const [field, setField] = useState<number[][]>([
-        [1, 1, 1],
-        [1, 6, 1],
-        [1, 5, 1],
-        [1, 1, 1],
-        [1, 1, 1],
-    ])
+    const [field, setField] = useState<number[][]>(initialField)
     const [gridData, setGridData] = useState<Cell[][]>(
         gridFromField(field))
 
     useEffect(() => {
 
         const intervalId = setInterval(() => {
-            setGridData(grid => {
+            setGridData(_ => {
                 const newGrid = gridFromField(field)
                 console.log("Grid: ", newGrid)
                 return newGrid
