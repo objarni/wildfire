@@ -88,7 +88,7 @@ describe('simulation', () => {
         })
     })
 
-    describe.skip('a width=3 height=4 field simulation', () => {
+    describe('a width=3 height=4 field simulation', () => {
 
         function simulate(initialField: number[][]) {
             let newField: number[][] = [];
@@ -121,13 +121,13 @@ describe('simulation', () => {
             ])
         })
 
-        it('takes the expected first step', () => {
+        it('takes the expected second step', () => {
             const afterTwoSteps = simulate(simulate(initialField))
             expect(afterTwoSteps).toStrictEqual([
                 [3, 3, 3],
+                [4, 9, 4],
                 [4, 8, 4],
-                [4, 8, 4],
-                [1, 2, 1],
+                [2, 2, 2],
                 [1, 1, 1],
             ])
         })
