@@ -35,12 +35,6 @@ const App: React.FC = () => {
         }
 
         const intervalId = setInterval(() => {
-            // const newField = simulate(field)
-            // const colorGrid = gridFromField(field)
-            // setGridData(colorGrid)
-            // setField(newField)
-            // console.log(newField)
-
             setGridData(grid => {
                 const newGrid = gridFromField(field);
                 return newGrid;
