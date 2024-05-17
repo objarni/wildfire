@@ -68,3 +68,28 @@ export function simulate(initialField: number[][]) {
     }
     return newField
 }
+
+export function generateHeatField(size: number): number[][] {
+    return Array.from({length: size}, () =>
+        Array.from({length: size}, () => {
+            const greenRandom = Math.random()
+            const percentGreen = 98
+            let heat: number
+            if (greenRandom < percentGreen / 100.0) {
+                heat = 1
+            } else if (Math.random() > 0.2) {
+                heat = 6
+            } else {
+                heat = 7
+            }
+            return heat
+        })
+    )
+}
+
+export function countGrass(field: number[][]) {
+    return field.map(
+        row => row.filter(heat => heat >= 1 && heat <= 5).length).reduce(
+        (acc, curr) => acc + curr, 0
+    )
+}

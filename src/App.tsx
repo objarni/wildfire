@@ -1,29 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import Grid from './Grid'
 import {Cell} from "./types";
-import {simulate} from "./simulation";
+import {countGrass, generateHeatField, simulate} from "./simulation";
 
 const size = 100
 
-function generateHeatField(): number[][] {
-    return Array.from({length: size}, () =>
-        Array.from({length: size}, () => {
-            const greenRandom = Math.random()
-            const percentGreen = 99
-            let heat: number
-            if (greenRandom < percentGreen / 100.0) {
-                heat = 1
-            } else if (Math.random() > 0.2) {
-                heat = 6
-            } else {
-                heat = 7
-            }
-            return heat
-        })
-    )
-}
-
-const initialField = generateHeatField()
+const initialField = generateHeatField(size)
 
 const App: React.FC = () => {
     const [field, setField] = useState<number[][]>(initialField)
@@ -52,6 +34,7 @@ const App: React.FC = () => {
 
     return <div>
         <Grid data={gridData}/>
+        <div>Grass: {(100 * countGrass(field) / (size * size)).toFixed(1)}%</div>
     </div>
 }
 
