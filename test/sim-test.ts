@@ -56,8 +56,17 @@ describe('simulation', () => {
             expect(neighbourHeats.sort()).toStrictEqual([8, 8, 1, 0, 1, 8, 8, 1].sort())
         })
 
-        it('outside field it is all ashes', () => {
-            const neighbourHeats = pickNeighboursAround(0, 0,
+        it('outside field it is all ashes (north east)', () => {
+            const neighbourHeats = pickNeighboursAround(1, 1,
+                [
+                    [8, 8],
+                    [8, 8],
+                ])
+            expect(neighbourHeats.sort()).toStrictEqual([0, 0, 0, 0, 0, 8, 8, 8].sort())
+        })
+
+        it('outside field it is all ashes (south west)', () => {
+            const neighbourHeats = pickNeighboursAround(1, 1,
                 [
                     [8, 8],
                     [8, 8],
@@ -76,6 +85,51 @@ describe('simulation', () => {
             ].map(row => row.map(c => {
                 return {color: c}
             })))
+        })
+    })
+
+    describe.skip('a width=3 height=4 field simulation', () => {
+
+        function simulate(initialField: number[][]) {
+            let newField: number[][] = [];
+            for (let y = 0; y < initialField.length; y++) {
+                let row: number[] = [];
+                for (let x = 0; x < initialField[0].length; x++) {
+                    row.push(step(initialField[y][x], pickNeighboursAround(x, y, initialField)))
+                }
+                newField.push(row)
+            }
+            return newField
+        }
+
+        const initialField = [
+            [1, 1, 1],
+            [1, 6, 1],
+            [1, 5, 1],
+            [1, 1, 1],
+            [1, 1, 1],
+        ]
+
+        it('takes the expected first step', () => {
+            const oneStep = simulate(initialField)
+            expect(oneStep).toStrictEqual([
+                [2, 2, 2],
+                [2, 7, 2],
+                [2, 6, 2],
+                [1, 1, 1],
+                [1, 1, 1],
+            ])
+        })
+
+        it('takes the expected first step', () => {
+            const afterTwoSteps = simulate(simulate(initialField))
+            expect(afterTwoSteps).toStrictEqual([
+                [3, 3, 3],
+                [4, 8, 4],
+                [4, 8, 4],
+                [1, 2, 1],
+                [1, 1, 1],
+            ])
         })
     })
 })
