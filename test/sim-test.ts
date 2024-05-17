@@ -78,10 +78,10 @@ describe('simulation', () => {
     describe('field to grid conversion', () => {
 
         it('converts a simple 2x2 field to same dimension grid', () => {
-            const grid = gridFromField([[1, 6], [7, 1]])
+            const grid = gridFromField([[1, 6], [7, 0]])
             expect(grid).toStrictEqual([
                 ['green', 'yellow'],
-                ['red', 'green']
+                ['red', 'black']
             ].map(row => row.map(c => {
                 return {color: c}
             })))

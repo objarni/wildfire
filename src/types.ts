@@ -1,3 +1,3 @@
 export type Cell = {
-    color: 'green' | 'red' | 'yellow'
+    color: 'green' | 'red' | 'yellow' | 'black'
 }

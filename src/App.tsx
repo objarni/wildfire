@@ -57,8 +57,10 @@ export default App
 
 export function gridFromField(field: number[][]): Cell[][] {
     const heatToColor = (heat: number): Cell => {
+        if (heat === 0)
+            return {color: 'black'}
         if (heat < 6)
-            return {color: 'green'};
+            return {color: 'green'}
         return {color: heat % 2 === 1 ? 'red' : 'yellow'}
     }
     return field.map(row => row.map(heatToColor))
