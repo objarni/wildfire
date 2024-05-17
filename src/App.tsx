@@ -3,11 +3,13 @@ import Grid from './Grid'
 import {Cell} from "./types";
 import {simulate} from "./simulation";
 
+const size = 50
+
 function generateHeatField(): number[][] {
-    return Array.from({length: 10}, () =>
-        Array.from({length: 10}, () => {
+    return Array.from({length: size}, () =>
+        Array.from({length: size}, () => {
             const greenRandom = Math.random()
-            const percentGreen = 80
+            const percentGreen = 99
             let heat: number
             if (greenRandom < percentGreen / 100.0) {
                 heat = 1
