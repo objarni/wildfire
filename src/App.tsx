@@ -3,7 +3,7 @@ import Grid from './Grid'
 import {Cell} from "./types";
 import {simulate} from "./simulation";
 
-const size = 200
+const size = 100
 
 function generateHeatField(): number[][] {
     return Array.from({length: size}, () =>
@@ -44,7 +44,7 @@ const App: React.FC = () => {
                 console.log("Field: ", newField); // This should now log the updated field
                 return newField;
             });
-        }, 100) // 1000 milliseconds = 1 second
+        }, 10) // 1000 milliseconds = 1 second
 
         // Cleanup function to clear interval when the component unmounts
         return () => clearInterval(intervalId)

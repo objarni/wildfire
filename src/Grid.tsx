@@ -5,7 +5,7 @@ type GridProps = {
     data: Cell[][]
 }
 
-const divSize: number = 5
+const divSize: number = 4
 
 const Grid: React.FC<GridProps> = ({ data }) => {
     const rows = data.length > 0 ? data[0].length : 0
