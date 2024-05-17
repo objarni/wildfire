@@ -88,7 +88,7 @@ describe('simulation', () => {
         })
     })
 
-    describe('a width=3 height=4 field simulation', () => {
+    describe('a width=3 height=5 field simulation', () => {
 
         const initialField = [
             [1, 1, 1],
