@@ -1,9 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import Grid from './Grid'
 import {Cell} from "./types";
+import {simulate} from "./simulation";
 
 const App: React.FC = () => {
-    const [gridData, setGridData] = useState<{ color: 'green' | 'red' | 'yellow' }[][]>([])
+    const [field, setField] = useState<number[][]>([
+        [1, 1, 1],
+        [1, 6, 1],
+        [1, 5, 1],
+        [1, 1, 1],
+        [1, 1, 1],
+    ])
+    const [gridData, setGridData] = useState<Cell[][]>(
+        gridFromField(field))
 
     useEffect(() => {
 
@@ -26,9 +35,22 @@ const App: React.FC = () => {
         }
 
         const intervalId = setInterval(() => {
-            const field = generateHeatField()
-            const colorField = gridFromField(field)
-            setGridData(colorField)
+            // const newField = simulate(field)
+            // const colorGrid = gridFromField(field)
+            // setGridData(colorGrid)
+            // setField(newField)
+            // console.log(newField)
+
+            setGridData(grid => {
+                const newGrid = gridFromField(field);
+                return newGrid;
+            });
+
+            setField(field => {
+                const newField = simulate(field);
+                console.log(newField); // This should now log the updated field
+                return newField;
+            });
         }, 1000) // 1000 milliseconds = 1 second
 
         // Cleanup function to clear interval when the component unmounts

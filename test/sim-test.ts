@@ -1,6 +1,6 @@
 // sum.sim-test.ts
 import {describe, expect, it} from 'vitest'
-import {pickNeighboursAround, step} from "../src/simulation";
+import {pickNeighboursAround, simulate, step} from "../src/simulation";
 import {gridFromField} from "../src/App";
 
 
@@ -90,18 +90,6 @@ describe('simulation', () => {
 
     describe('a width=3 height=4 field simulation', () => {
 
-        function simulate(initialField: number[][]) {
-            let newField: number[][] = [];
-            for (let y = 0; y < initialField.length; y++) {
-                let row: number[] = [];
-                for (let x = 0; x < initialField[0].length; x++) {
-                    row.push(step(initialField[y][x], pickNeighboursAround(x, y, initialField)))
-                }
-                newField.push(row)
-            }
-            return newField
-        }
-
         const initialField = [
             [1, 1, 1],
             [1, 6, 1],
@@ -133,3 +121,4 @@ describe('simulation', () => {
         })
     })
 })
+

@@ -54,3 +54,15 @@ export function pickNeighboursAround(x: number, y: number, field: number[][]) {
         safePick(x - 1, y), safePick(x + 1, y),
         safePick(x - 1, y + 1), safePick(x, y + 1), safePick(x + 1, y + 1)]
 }
+
+export function simulate(initialField: number[][]) {
+    let newField: number[][] = [];
+    for (let y = 0; y < initialField.length; y++) {
+        let row: number[] = [];
+        for (let x = 0; x < initialField[0].length; x++) {
+            row.push(step(initialField[y][x], pickNeighboursAround(x, y, initialField)))
+        }
+        newField.push(row)
+    }
+    return newField
+}
