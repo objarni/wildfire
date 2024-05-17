@@ -3,6 +3,24 @@ import Grid from './Grid'
 import {Cell} from "./types";
 import {simulate} from "./simulation";
 
+// function generateHeatField(): number[][] {
+//     return Array.from({length: 10}, () =>
+//         Array.from({length: 10}, () => {
+//             const greenRandom = Math.random()
+//             const percentGreen = 80
+//             let heat: number
+//             if (greenRandom < percentGreen / 100.0) {
+//                 heat = 1
+//             } else if (Math.random() > 0.2) {
+//                 heat = 6
+//             } else {
+//                 heat = 7
+//             }
+//             return heat
+//         })
+//     )
+// }
+
 const App: React.FC = () => {
     const [field, setField] = useState<number[][]>([
         [1, 1, 1],
@@ -16,40 +34,23 @@ const App: React.FC = () => {
 
     useEffect(() => {
 
-        function generateHeatField(): number[][] {
-            return Array.from({length: 10}, () =>
-                Array.from({length: 10}, () => {
-                    const greenRandom = Math.random()
-                    const percentGreen = 80
-                    let heat: number
-                    if (greenRandom < percentGreen / 100.0) {
-                        heat = 1
-                    } else if (Math.random() > 0.2) {
-                        heat = 6
-                    } else {
-                        heat = 7
-                    }
-                    return heat
-                })
-            )
-        }
-
         const intervalId = setInterval(() => {
             setGridData(grid => {
-                const newGrid = gridFromField(field);
-                return newGrid;
+                const newGrid = gridFromField(field)
+                console.log("Grid: ", newGrid)
+                return newGrid
             });
 
             setField(field => {
                 const newField = simulate(field);
-                console.log(newField); // This should now log the updated field
+                console.log("Field: ", newField); // This should now log the updated field
                 return newField;
             });
         }, 1000) // 1000 milliseconds = 1 second
 
         // Cleanup function to clear interval when the component unmounts
         return () => clearInterval(intervalId)
-    }, [])
+    }, [field])
 
     return <div>
         <Grid data={gridData}/>
