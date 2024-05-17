@@ -31,6 +31,12 @@ describe('simulation', () => {
             const newHeat = step(9, [1, 1, 1, 1, 1, 1, 1, 1])
             expect(newHeat).toStrictEqual(0)
         })
+
+        it('ashes does not heat even if surrounded by fire', () => {
+            const newHeat = step(0, [6,6,6,7,7,7,8,8])
+            expect(newHeat).toStrictEqual(0)
+        })
+
     })
 
     describe('neighourhood picker', () => {

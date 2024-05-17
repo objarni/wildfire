@@ -32,6 +32,8 @@
  */
 
 export function step(heat: number, neighbourHeats: number[]) {
+    if(heat === 0)
+        return 0
     const isBurning = (heat: number) => heat > 5
     const burningNeighbours = neighbourHeats.filter(isBurning).length
     if (isBurning(heat))
