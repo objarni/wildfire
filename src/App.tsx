@@ -9,31 +9,29 @@ const initialField = generateHeatField(size)
 
 const App: React.FC = () => {
     const [field, setField] = useState<number[][]>(initialField)
-    const [gridData, setGridData] = useState<Cell[][]>(
-        gridFromField(field))
 
     useEffect(() => {
 
         const intervalId = setInterval(() => {
-            setGridData(_ => {
-                const newGrid = gridFromField(field)
-                console.log("Grid: ", newGrid)
-                return newGrid
-            });
-
             setField(field => {
-                const newField = simulate(field);
-                console.log("Field: ", newField); // This should now log the updated field
-                return newField;
+                // console.log("Field: ", newField); // This should now log the updated field
+                return simulate(field);
             });
-        }, 10) // 1000 milliseconds = 1 second
+        }, 500) // 1000 milliseconds = 1 second
 
         // Cleanup function to clear interval when the component unmounts
         return () => clearInterval(intervalId)
-    }, [field])
+    }, [])
+
+    function onClickCell(x: number, y: number) {
+        let newField = field.map(row => row.map(cell => cell))
+        newField[x][y] = 6
+        console.log("setting", x, y)
+        setField(newField)
+    }
 
     return <div>
-        <Grid data={gridData}/>
+        <Grid data={gridFromField(field)} onClickCell={onClickCell}/>
         <div>Grass: {(100 * countGrass(field) / (size * size)).toFixed(1)}%</div>
     </div>
 }
