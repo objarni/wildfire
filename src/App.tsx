@@ -17,7 +17,7 @@ const App: React.FC = () => {
                 // console.log("Field: ", newField); // This should now log the updated field
                 return simulate(field);
             });
-        }, 500) // 1000 milliseconds = 1 second
+        }, 50) // 1000 milliseconds = 1 second
 
         // Cleanup function to clear interval when the component unmounts
         return () => clearInterval(intervalId)
